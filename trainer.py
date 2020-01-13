@@ -145,8 +145,8 @@ class Trainer:
         if not self.opt.no_ssim:
             self.ssim = SSIM()
             self.ssim.to(self.device)
-            # self.poseLSTM = poseLSTM()
-            # self.poseLSTM.to(self.device)
+            self.poseLSTM = poseLSTM()
+            self.poseLSTM.to(self.device)
 
         self.backproject_depth = {}
         self.project_3d = {}
@@ -364,7 +364,7 @@ class Trainer:
                 #     T = inputs["stereo_T"]
                 # else:
                 #     T = outputs[("cam_T_cam", 0, frame_id)]
-                T = inputs["stereo_T"]
+                # T = inputs["stereo_T"]
                 # from the authors of https://arxiv.org/abs/1712.00175
                 if self.opt.pose_model_type == "posecnn":
 
@@ -382,7 +382,7 @@ class Trainer:
 
                     axisangle = inputs[("pose_angle", frame_id)]
                     translation = inputs[("pose_translation", frame_id)]
-                    # axisangle, translation = self.poseLSTM(axisangle, translation)
+                    axisangle, translation = self.poseLSTM(axisangle, translation)
                     T = transformation_from_parameters(
                         axisangle, translation * mean_inv_depth[:, 0], frame_id < 0)
 

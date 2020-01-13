@@ -233,8 +233,8 @@ class poseLSTM(nn.Module):
         pose = self.poselstm(pose)
         print("################################")
         print(pose)
-        out_axisangle = pose[..., :3]
-        out_translation = pose[..., 3:]
+        out_axisangle = pose[0][..., :3]
+        out_translation = pose[0][..., 3:]
         return out_axisangle, out_translation
 
 

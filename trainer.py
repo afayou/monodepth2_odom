@@ -213,7 +213,7 @@ class Trainer:
             duration = time.time() - before_op_time
 
             # log less frequently after the first 2000 steps to save time & disk space
-            early_phase = batch_idx % self.opt.log_frequency == 0 and self.step < 1000
+            early_phase = batch_idx % self.opt.log_frequency == 0 and self.step < 4000
             late_phase = self.step % 1000 == 0
 
             if early_phase or late_phase:

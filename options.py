@@ -156,7 +156,7 @@ class MonodepthOptions:
         self.parser.add_argument("--log_frequency",
                                  type=int,
                                  help="number of batches between each tensorboard log",
-                                 default=250)
+                                 default=50)
         self.parser.add_argument("--save_frequency",
                                  type=int,
                                  help="number of epochs between each save",

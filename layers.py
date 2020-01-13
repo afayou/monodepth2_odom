@@ -231,6 +231,8 @@ class poseLSTM(nn.Module):
     def forward(self, axisangle, translation):
         pose = torch.cat([axisangle, translation], dim=2)
         pose = self.poselstm(pose)
+        print("################################")
+        print(pose)
         out_axisangle = pose[..., :3]
         out_translation = pose[..., 3:]
         return out_axisangle, out_translation

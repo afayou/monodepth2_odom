@@ -1,8 +1,8 @@
-file = open("./splits/odom/val_files.txt", "r")
-new_file = open("./splits/odom/val_files_new.txt", "w")
+file = open("./splits/odom/test_files_10.txt", "r")
+new_file = open("./splits/odom/test_files_10_new.txt", "w")
 lines = file.readlines()
 index = []
-for i in range(11):
+for i in range(12):
     index.append(str(i))
 print(index)
 for row in lines:

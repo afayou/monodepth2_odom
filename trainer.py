@@ -360,10 +360,11 @@ class Trainer:
 
             for i, frame_id in enumerate(self.opt.frame_ids[1:]):
 
-                if frame_id == "s":
-                    T = inputs["stereo_T"]
-                else:
-                    T = outputs[("cam_T_cam", 0, frame_id)]
+                # if frame_id == "s":
+                #     T = inputs["stereo_T"]
+                # else:
+                #     T = outputs[("cam_T_cam", 0, frame_id)]
+                T = inputs["stereo_T"]
                 # from the authors of https://arxiv.org/abs/1712.00175
                 if self.opt.pose_model_type == "posecnn":
 

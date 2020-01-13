@@ -160,8 +160,8 @@ class MonoDataset(data.Dataset):
             else:
                 inputs[("color", i, -1)] = self.get_color(folder, frame_index + i, side, do_flip)
                 angle, translation = self.get_pose(folder, frame_index + i)
-                angle = 0.01 * np.array([angle])
-                translation = 0.01 * np.array([translation])
+                angle = np.array([angle])
+                translation = np.array([translation])
                 inputs[("pose_angle", i)] = torch.from_numpy(angle.astype(np.float32))
                 inputs[("pose_translation", i)] = torch.from_numpy(translation.astype(np.float32))
 

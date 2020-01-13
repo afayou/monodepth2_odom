@@ -145,8 +145,8 @@ class Trainer:
         if not self.opt.no_ssim:
             self.ssim = SSIM()
             self.ssim.to(self.device)
-            self.poseLSTM = poseLSTM()
-            self.poseLSTM.to(self.device)
+            # self.poseLSTM = poseLSTM()
+            # self.poseLSTM.to(self.device)
 
         self.backproject_depth = {}
         self.project_3d = {}
@@ -382,9 +382,9 @@ class Trainer:
 
                     axisangle = inputs[("pose_angle", frame_id)]
                     translation = inputs[("pose_translation", frame_id)]
-                    axisangle, translation = self.poseLSTM(axisangle, translation)
+                    # axisangle, translation = self.poseLSTM(axisangle, translation)
                     T = transformation_from_parameters(
-                        axisangle, translation, frame_id < 0)
+                        axisangle, translation * mean_inv_depth[:, 0], frame_id < 0)
 
                 cam_points = self.backproject_depth[source_scale](
                     depth, inputs[("inv_K", source_scale)])

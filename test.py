@@ -1,11 +1,14 @@
-file = open("./splits/odom/test_files_09.txt", "r")
-new_file = open("./splits/odom/test_files_09.txt", "w")
+file = open("./splits/odom/test_files_10.txt", "r")
+new_file = open("./splits/odom/test_files_10_new.txt", "w")
 lines = file.readlines()
-data = []
-del_index = []
+index = []
+for i in range(10):
+    index.append(str(i))
+print(index)
 for row in lines:
-    if '0' not in row or '1' not in row or '2' not in row or '3' not in row or '4' not in row or '5' not in row or \
-            '6' not in row or '7' not in row or '8' not in row or '9' not in row or '10' not in row:
+    data = row.split()
+    if str(data[1]) not in index:
+        print(data[1])
         new_file.write(row)
 new_file.close()
 

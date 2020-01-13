@@ -144,10 +144,7 @@ class MonoDataset(data.Dataset):
         folder = line[0]
 
         if len(line) == 3:
-            if int(line[1]) < 15:
-                frame_index = 15
-            else:
-                frame_index = int(line[1])
+            frame_index = int(line[1])
         else:
             frame_index = 0
 

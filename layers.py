@@ -225,22 +225,33 @@ class poseLSTM(nn.Module):
         super(poseLSTM, self).__init__()
 
         # self.num_input_frames = num_input_frames
-        self.poselstm = nn.LSTM(input_size=6,
-                                hidden_size=6,
-                                num_layers=3,
+        self.axisanglelstm = nn.LSTM(input_size=3,
+                                hidden_size=3,
+                                num_layers=1,
                                 batch_first=True)
-        self.poselinear = nn.Linear(6, 6)
+        self.axisanglelinear = nn.Linear(3, 3)
+        self.translationlstm = nn.LSTM(input_size=3,
+                                hidden_size=3,
+                                num_layers=1,
+                                batch_first=True)
+        self.translationlinear = nn.Linear(3, 3)
 
     def forward(self, axisangle, translation):
-        pose = torch.cat([axisangle, translation], dim=2)
-        pose, (h_n, h_c) = self.poselstm(pose)
-        pose = pose[:, -1, :]
-        pose = self.poselinear(pose)
+        # pose = torch.cat([axisangle, translation], dim=2)
+        axisangle, (a_n, a_c) = self.axisanglelstm(axisangle)
+        axisangle = axisangle[:, -1, :]
+        axisangle = self.axisanglelinear(axisangle)
         # pose = 0.01 * pose.view(-1, self.num_input_frames - 1, 1, 6)
-        pose = 0.01 * torch.unsqueeze(torch.unsqueeze(pose, 0), 0)
-        out_axisangle = pose[..., :3]
-        out_translation = pose[..., 3:]
-        return out_axisangle, out_translation
+        axisangle = 0.01 * torch.unsqueeze(torch.unsqueeze(axisangle, 0), 0)
+
+        translation, (t_n, t_c) = self.translationlstm(translation)
+        translation = translation[:, -1, :]
+        translation = self.translationlinear(translation)
+        # pose = 0.01 * pose.view(-1, self.num_input_frames - 1, 1, 6)
+        translation = 0.01 * torch.unsqueeze(torch.unsqueeze(translation, 0), 0)
+        # out_axisangle = pose[..., :3]
+        # out_translation = pose[..., 3:]
+        return axisangle, translation
 
 
 class SSIM(nn.Module):

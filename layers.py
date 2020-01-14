@@ -227,7 +227,6 @@ class poseLSTM(nn.Module):
                                 hidden_size=6,
                                 num_layers=4,
                                 batch_first=True)
-        self.poselinear = nn.Linear(4, 6)
 
     def forward(self, axisangle, translation):
         pose = torch.cat([axisangle, translation], dim=2)

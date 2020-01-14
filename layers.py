@@ -234,8 +234,8 @@ class poseLSTM(nn.Module):
         pose, (h_n, h_c) = self.poselstm(pose)
         pose = pose[:, -1, :]
         pose = self.poselinear(pose)
-        out_axisangle = 0.01 * pose[0][..., :3]
-        out_translation = 0.01 * pose[0][..., 3:]
+        out_axisangle = 0.01 * pose[..., :3]
+        out_translation = 0.01 * pose[..., 3:]
         return out_axisangle, out_translation
 
 

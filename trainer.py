@@ -145,9 +145,9 @@ class Trainer:
         if not self.opt.no_ssim:
             self.ssim = SSIM()
             self.ssim.to(self.device)
-            self.poseLSTM = poseLSTM()
-            self.poseLSTM.to(self.device)
 
+        self.poseLSTM = poseLSTM()
+        self.poseLSTM.to(self.device)
         self.backproject_depth = {}
         self.project_3d = {}
         for scale in self.opt.scales:

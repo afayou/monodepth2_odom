@@ -214,15 +214,13 @@ class Trainer:
 
             # log less frequently after the first 2000 steps to save time & disk space
             early_phase = batch_idx % self.opt.log_frequency == 0 and self.step < 4000
-            late_phase = self.step % 1000 == 0
+            late_phase = self.step % self.opt.log_frequency == 0
 
             if early_phase or late_phase:
                 self.log_time(batch_idx, duration, losses["loss"].cpu().data)
 
                 if "depth_gt" in inputs:
                     self.compute_depth_losses(inputs, outputs, losses)
-                # print(inputs.keys())
-                # print(inputs[('pose_angle', -1)])
                 self.log("train", inputs, outputs, losses)
                 self.val()
 

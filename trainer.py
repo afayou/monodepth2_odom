@@ -410,7 +410,7 @@ class Trainer:
             reprojection_loss = l1_loss
         else:
             ssim_loss = self.ssim(pred, target).mean(1, True)
-            reprojection_loss = 0.9 * ssim_loss + 0.1 * l1_loss
+            reprojection_loss = 0.25 * ssim_loss + 0.75 * l1_loss
 
         return reprojection_loss
 

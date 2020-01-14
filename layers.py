@@ -221,8 +221,10 @@ def get_smooth_loss(disp, img):
 class poseLSTM(nn.Module):
     """Layer to pose data LSTM
     """
-    def __init__(self):
+    def __init__(self, num_input_frames):
         super(poseLSTM, self).__init__()
+
+        self.num_input_frames = num_input_frames
         self.poselstm = nn.LSTM(input_size=6,
                                 hidden_size=6,
                                 num_layers=3,
@@ -234,8 +236,9 @@ class poseLSTM(nn.Module):
         pose, (h_n, h_c) = self.poselstm(pose)
         pose = pose[:, -1, :]
         pose = self.poselinear(pose)
-        out_axisangle = [0.01 * pose[..., :3]]
-        out_translation = [0.01 * pose[..., 3:]]
+        pose = 0.01 * pose.view(-1, self.num_input_frames - 1, 1, 6)
+        out_axisangle = 0.01 * pose[..., :3]
+        out_translation = 0.01 * pose[..., 3:]
         return out_axisangle, out_translation
 
 

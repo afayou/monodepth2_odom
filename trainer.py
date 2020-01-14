@@ -146,7 +146,7 @@ class Trainer:
             self.ssim = SSIM()
             self.ssim.to(self.device)
 
-        self.poseLSTM = poseLSTM()
+        self.poseLSTM = poseLSTM(self.num_input_frames)
         self.poseLSTM.to(self.device)
         self.backproject_depth = {}
         self.project_3d = {}

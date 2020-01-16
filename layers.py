@@ -225,32 +225,32 @@ class poseLSTM(nn.Module):
         super(poseLSTM, self).__init__()
 
         # self.num_input_frames = num_input_frames
-        self.axisanglelstm = nn.LSTM(input_size=3,
-                                hidden_size=3,
-                                num_layers=1,
+        self.axisanglelstm = nn.LSTM(input_size=6,
+                                hidden_size=6,
+                                num_layers=4,
                                 batch_first=True)
-        self.axisanglelinear = nn.Linear(3, 3)
-        self.translationlstm = nn.LSTM(input_size=3,
-                                hidden_size=3,
-                                num_layers=1,
-                                batch_first=True)
-        self.translationlinear = nn.Linear(3, 3)
+        self.axisanglelinear = nn.Linear(6, 6)
+        # self.translationlstm = nn.LSTM(input_size=3,
+        #                         hidden_size=3,
+        #                         num_layers=1,
+        #                         batch_first=True)
+        # self.translationlinear = nn.Linear(3, 3)
 
     def forward(self, axisangle, translation):
-        # pose = torch.cat([axisangle, translation], dim=2)
-        axisangle, (a_n, a_c) = self.axisanglelstm(axisangle)
-        axisangle = axisangle[:, -1, :]
-        axisangle = self.axisanglelinear(axisangle)
+        pose = torch.cat([axisangle, translation], dim=2)
+        pose, (a_n, a_c) = self.axisanglelstm(pose)
+        pose = pose[:, -1, :]
+        psoe = self.axisanglelinear(pose)
         # pose = 0.01 * pose.view(-1, self.num_input_frames - 1, 1, 6)
-        axisangle = 0.001 * torch.unsqueeze(torch.unsqueeze(axisangle, 1), 1)
+        pose = 0.001 * torch.unsqueeze(torch.unsqueeze(pose, 1), 1)
 
-        translation, (t_n, t_c) = self.translationlstm(translation)
-        translation = translation[:, -1, :]
-        translation = self.translationlinear(translation)
-        # pose = 0.01 * pose.view(-1, self.num_input_frames - 1, 1, 6)
-        translation = 0.001 * torch.unsqueeze(torch.unsqueeze(translation, 1), 1)
-        # out_axisangle = pose[..., :3]
-        # out_translation = pose[..., 3:]
+        # translation, (t_n, t_c) = self.translationlstm(translation)
+        # translation = translation[:, -1, :]
+        # translation = self.translationlinear(translation)
+        # # pose = 0.01 * pose.view(-1, self.num_input_frames - 1, 1, 6)
+        # translation = 0.001 * torch.unsqueeze(torch.unsqueeze(translation, 1), 1)
+        axisangle = pose[..., :3]
+        translation = pose[..., 3:]
 
         return axisangle, translation
 

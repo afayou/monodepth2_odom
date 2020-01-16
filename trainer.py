@@ -378,9 +378,9 @@ class Trainer:
                     inv_depth = 1 / depth
                     mean_inv_depth = inv_depth.mean(3, True).mean(2, True)
 
-                    axisangle = inputs[("pose_angle", frame_id)]
-                    translation = inputs[("pose_translation", frame_id)]
-                    axisangle, translation = self.poseLSTM(axisangle, translation)
+                    axisangle = 0.001 * inputs[("pose_angle", frame_id)]
+                    translation = 0.001 * inputs[("pose_translation", frame_id)]
+                    # axisangle, translation = self.poseLSTM(axisangle, translation)
                     T = transformation_from_parameters(
                         axisangle[:, 0], translation[:, 0] * mean_inv_depth[:, 0], frame_id < 0)
 
@@ -491,7 +491,7 @@ class Trainer:
                 outputs["identity_selection/{}".format(scale)] = (
                     idxs > identity_reprojection_loss.shape[1] - 1).float()
 
-            loss += 0.5 * to_optimise.mean()
+            loss += to_optimise.mean()
 
             mean_disp = disp.mean(2, True).mean(3, True)
             norm_disp = disp / (mean_disp + 1e-7)

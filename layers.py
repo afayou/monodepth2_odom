@@ -242,15 +242,16 @@ class poseLSTM(nn.Module):
         axisangle = axisangle[:, -1, :]
         axisangle = self.axisanglelinear(axisangle)
         # pose = 0.01 * pose.view(-1, self.num_input_frames - 1, 1, 6)
-        axisangle = 0.01 * torch.unsqueeze(torch.unsqueeze(axisangle, 0), 0)
+        axisangle = 0.001 * torch.unsqueeze(torch.unsqueeze(axisangle, 1), 1)
 
         translation, (t_n, t_c) = self.translationlstm(translation)
         translation = translation[:, -1, :]
         translation = self.translationlinear(translation)
         # pose = 0.01 * pose.view(-1, self.num_input_frames - 1, 1, 6)
-        translation = 0.01 * torch.unsqueeze(torch.unsqueeze(translation, 0), 0)
+        translation = 0.001 * torch.unsqueeze(torch.unsqueeze(translation, 1), 1)
         # out_axisangle = pose[..., :3]
         # out_translation = pose[..., 3:]
+
         return axisangle, translation
 
 

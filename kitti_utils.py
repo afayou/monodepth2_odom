@@ -6,6 +6,24 @@ from collections import Counter
 import math
 
 
+def _Quaternion2rota(filename):
+    """Load Visual Odometry Quaternion to Rotation matrix
+    """
+    _angle = []
+    _translation = []
+    line = open(filename, 'r').readline().split()
+    data = list(map(eval, line))
+    w = data[3]
+    x = data[4]
+    y = data[5]
+    z = data[6]
+    _angle = [math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y)),
+                   math.asin(2 * (w * y - z * x)),
+                   math.atan2(2 * (w * z + x * y), 1 - 2 * (z * z + y * y))]
+    _translation = [data[0], data[1], data[2]]
+    return _angle, _translation
+
+
 def Quaternion2rota(filename, last_filename):
     """Load Visual Odometry Quaternion to Rotation matrix
     """

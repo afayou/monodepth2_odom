@@ -95,6 +95,22 @@ class KITTIOdomDataset(KITTIDataset):
             f_str)
         return image_path
 
+    def get_depth(self, folder, frame_index, side, do_flip):
+        calib_path = os.path.join(self.data_path, "sequences")
+        f_str = "{:06d}.bin".format(frame_index)
+        velo_filename = os.path.join(
+            self.data_path,
+            "sequences/{:02d}/velodyne".format(int(folder)),
+            f_str)
+        depth_gt = generate_depth_map(calib_path, velo_filename, self.side_map[side])
+        depth_gt = skimage.transform.resize(
+            depth_gt, self.full_res_shape[::-1], order=0, preserve_range=True, mode='constant')
+
+        if do_flip:
+            depth_gt = np.fliplr(depth_gt)
+
+        return depth_gt
+
     def get_pose(self, folder, frame_index):
         f_str = "{:06d}.txt".format(frame_index)
         last_f_str = "{:06d}.txt".format(frame_index - 1)

@@ -40,7 +40,7 @@ def Quaternion2rota(filename, last_filename):
         z = data[row][6]
         _angle[row] = [math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y)),
                        math.asin(2 * (w * y - z * x)),
-                       -(math.atan2(2 * (w * z + x * y), 1 - 2 * (z * z + y * y)))]
+                       math.atan2(2 * (w * z + x * y), 1 - 2 * (z * z + y * y))]
         _translation[row] = [data[row][0], data[row][1], data[row][2]]
     angle = np.array(_angle[1]) - np.array(_angle[0])
     translation = np.array(_translation[1]) - np.array(_translation[0])

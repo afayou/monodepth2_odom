@@ -242,7 +242,7 @@ class poseLSTM(nn.Module):
         pose = pose[:, -1, :]
         psoe = self.axisanglelinear(pose)
         # pose = 0.01 * pose.view(-1, self.num_input_frames - 1, 1, 6)
-        pose = 0.001 * torch.unsqueeze(torch.unsqueeze(pose, 1), 1)
+        pose = 0.005 * torch.unsqueeze(torch.unsqueeze(pose, 1), 1)
 
         # translation, (t_n, t_c) = self.translationlstm(translation)
         # translation = translation[:, -1, :]

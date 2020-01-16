@@ -381,7 +381,6 @@ class Trainer:
                     axisangle = inputs[("pose_angle", frame_id)]
                     translation = inputs[("pose_translation", frame_id)]
                     axisangle, translation = self.poseLSTM(axisangle, translation)
-                    print(axisangle)
                     T = transformation_from_parameters(
                         axisangle[:, 0], translation[:, 0] * mean_inv_depth[:, 0], frame_id < 0)
 

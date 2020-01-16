@@ -18,8 +18,8 @@ def _Quaternion2rota(filename):
     y = data[5]
     z = data[6]
     _angle = [math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y)),
-                   math.asin(2 * (w * y - z * x)),
-                   math.atan2(2 * (w * z + x * y), 1 - 2 * (z * z + y * y))]
+              math.asin(2 * (w * y - z * x)),
+              -(math.atan2(2 * (w * z + x * y), 1 - 2 * (z * z + y * y)))]
     _translation = [data[0], data[1], data[2]]
     return _angle, _translation
 
